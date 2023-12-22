@@ -4,6 +4,7 @@
 package domain.reservation;
 
 import java.util.Date;
+import domain.payment.Payment;
 
 /**
  * Reservation entity<br>
@@ -14,12 +15,15 @@ public class Reservation {
 	public static final String RESERVATION_STATUS_CREATE = "create";
 
 	public static final String RESERVATION_STATUS_CONSUME = "consume";
+	public
 
 	private String reservationNumber;
 
 	private Date stayingDate;
 
 	private String status;
+
+	public Payment payment;
 
 	public String getReservationNumber() {
 		return reservationNumber;
