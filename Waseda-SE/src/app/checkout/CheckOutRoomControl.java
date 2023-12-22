@@ -17,25 +17,23 @@ import domain.room.RoomException;
  * 
  */
 public class CheckOutRoomControl {
-	
+
 	public void checkOut(String roomNumber) throws AppException {
 		try {
-			//Clear room
+			// Clear room
 			/*
 			 * Your code for clearing room by using domain.room.RoomManager
 			 */
-			//Consume payment
+			// Consume payment
 			/*
 			 * Your code for consuming payment by using domain.payment.PaymentManager
 			 */
-		}
-		catch (RoomException e) {
+		} catch (RoomException e) {
 			AppException exception = new AppException("Failed to check-out", e);
 			exception.getDetailMessages().add(e.getMessage());
 			exception.getDetailMessages().addAll(e.getDetailMessages());
 			throw exception;
-		}
-		catch (PaymentException e) {
+		} catch (PaymentException e) {
 			AppException exception = new AppException("Failed to check-out", e);
 			exception.getDetailMessages().add(e.getMessage());
 			exception.getDetailMessages().addAll(e.getDetailMessages());
