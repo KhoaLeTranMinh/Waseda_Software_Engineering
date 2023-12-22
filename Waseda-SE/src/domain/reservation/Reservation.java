@@ -15,7 +15,6 @@ public class Reservation {
 	public static final String RESERVATION_STATUS_CREATE = "create";
 
 	public static final String RESERVATION_STATUS_CONSUME = "consume";
-	public
 
 	private String reservationNumber;
 
