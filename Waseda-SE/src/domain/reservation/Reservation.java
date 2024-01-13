@@ -4,7 +4,6 @@
 package domain.reservation;
 
 import java.util.Date;
-import domain.payment.Payment;
 
 /**
  * Reservation entity<br>
@@ -21,8 +20,6 @@ public class Reservation {
 	private Date stayingDate;
 
 	private String status;
-
-	public Payment payment;
 
 	public String getReservationNumber() {
 		return reservationNumber;

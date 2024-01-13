@@ -15,6 +15,6 @@ public interface AvailableQtyDao {
 
 	public void updateAvailableQty(AvailableQty availableQty) throws RoomException;
 
-	public void createAbailableQty(AvailableQty availableQty) throws RoomException;
+	public void createAvailableQty(AvailableQty availableQty) throws RoomException;
 
 }

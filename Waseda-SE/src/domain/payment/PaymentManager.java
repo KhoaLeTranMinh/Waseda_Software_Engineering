@@ -52,8 +52,9 @@ public class PaymentManager {
 		}
 
 		PaymentDao paymentDao = getPaymentDao();
-		Payment payment = paymentDao.getPayment(stayingDate, roomNumber);
-		//If corresponding payment does not exist
+		Payment payment = paymentDao.getPayment(stayingDate, roomNumber);// by using sql query, get the already created
+																			// payment in the checkin process
+		// If corresponding payment does not exist
 		if (payment == null) {
 			PaymentException exception = new PaymentException(
 					PaymentException.CODE_PAYMENT_NOT_FOUND);
@@ -61,7 +62,7 @@ public class PaymentManager {
 			exception.getDetailMessages().add("room_number[" + roomNumber + "]");
 			throw exception;
 		}
-		//If payment has been consumed already
+		// If payment has been consumed already
 		if (payment.getStatus().equals(Payment.PAYMENT_STATUS_CONSUME)) {
 			PaymentException exception = new PaymentException(
 					PaymentException.CODE_PAYMENT_ALREADY_CONSUMED);
@@ -69,7 +70,7 @@ public class PaymentManager {
 			exception.getDetailMessages().add("room_number[" + roomNumber + "]");
 			throw exception;
 		}
-		
+
 		payment.setStatus(Payment.PAYMENT_STATUS_CONSUME);
 		paymentDao.updatePayment(payment);
 	}

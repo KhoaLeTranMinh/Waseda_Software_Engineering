@@ -49,7 +49,8 @@ public class DateUtil {
 			if (dateStr != null) {
 				result = FORMATTER.parse(dateStr);
 			}
-		} catch (ParseException e) {
+		}
+		catch (ParseException e) {
 		}
 		return result;
 	}

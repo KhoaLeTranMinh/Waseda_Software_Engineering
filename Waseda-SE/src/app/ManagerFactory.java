@@ -15,14 +15,14 @@ public class ManagerFactory {
 
 	private static ManagerFactory instance = new ManagerFactory();
 
+	private ManagerFactory() {
+	}
+
 	private ReservationManager reservationManager = new ReservationManager();
 
 	private RoomManager roomManager = new RoomManager();
 
 	private PaymentManager paymentManager = new PaymentManager();
-
-	private ManagerFactory() {
-	}
 
 	public static ManagerFactory getInstance() {
 		return instance;

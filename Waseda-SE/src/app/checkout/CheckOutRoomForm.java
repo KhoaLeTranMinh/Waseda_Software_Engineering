@@ -4,6 +4,7 @@
 package app.checkout;
 
 import app.AppException;
+import app.checkin.CheckInRoomControl;
 
 /**
  * Form class for Check-out Customer
@@ -13,16 +14,18 @@ public class CheckOutRoomForm {
 
 	private CheckOutRoomControl checkOutRoomControl = new CheckOutRoomControl();
 
+	private String roomNumber;
+
 	private CheckOutRoomControl getCheckOutRoomControl() {
 		return checkOutRoomControl;
 	}
 
-	private String roomNumber;
-
 	public void checkOut() throws AppException {
 		/**
-		 * Your code for conducting check-out by using some Control object  
+		 * Your code for conducting check-out by using some Control object
 		 */
+		CheckOutRoomControl checkOutRoomControl = getCheckOutRoomControl();
+		checkOutRoomControl.checkOut(roomNumber);
 	}
 
 	public String getRoomNumber() {

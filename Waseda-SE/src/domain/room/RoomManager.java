@@ -14,7 +14,7 @@ import domain.DaoFactory;
  * 
  */
 public class RoomManager {
-	
+
 	public void updateRoomAvailableQty(Date stayingDate, int qtyOfChange) throws RoomException,
 			NullPointerException {
 		if (stayingDate == null) {
@@ -26,7 +26,8 @@ public class RoomManager {
 
 		AvailableQtyDao availableQtyDao = getAvailableQtyDao();
 		AvailableQty availableQty = availableQtyDao.getAvailableQty(stayingDate);
-		//Create new AvailableQty if corresponding AvailableQty on stayingDate does not exist
+		// Create new AvailableQty if corresponding AvailableQty on stayingDate does not
+		// exist
 		if (availableQty == null) {
 			availableQty = new AvailableQty();
 			availableQty.setQty(AvailableQty.AVAILABLE_ALL);
@@ -36,12 +37,12 @@ public class RoomManager {
 		// Obtain maximum number of available rooms
 		int maxAvailableQty = getMaxAvailableQty();
 		if (availableQty.getQty() == AvailableQty.AVAILABLE_ALL) {
-			// If all rooms are available,  
-			// set then maximum number obtained to number of available rooms 
+			// If all rooms are available,
+			// set then maximum number obtained to number of available rooms
 			availableQty.setQty(maxAvailableQty);
 
 			// Newly register availableQty data on stayingDate to DB
-			availableQtyDao.createAbailableQty(availableQty);
+			availableQtyDao.createAvailableQty(availableQty);
 		}
 
 		int changedAvailableQty = availableQty.getQty() + qtyOfChange;
@@ -50,8 +51,7 @@ public class RoomManager {
 			availableQty.setQty(changedAvailableQty);
 			availableQty.setDate(stayingDate);
 			availableQtyDao.updateAvailableQty(availableQty);
-		}
-		else {
+		} else {
 			// If it is impossible to update
 			RoomException exception = new RoomException(
 					RoomException.CODE_AVAILABLE_QTY_OUT_OF_BOUNDS);
@@ -80,6 +80,7 @@ public class RoomManager {
 			throw exception;
 		}
 		Room room = (Room) emptyRooms.get(0);
+		// next empty room in the order of sql database
 		String roomNumber = room.getRoomNumber();
 		room.setStayingDate(stayingDate);
 		roomDao.updateRoom(room);
@@ -92,7 +93,7 @@ public class RoomManager {
 		}
 		RoomDao roomDao = getRoomDao();
 		Room room = roomDao.getRoom(roomNumber);
-		//If corresponding room does not exist
+		// If corresponding room does not exist
 		if (room == null) {
 			RoomException exception = new RoomException(RoomException.CODE_ROOM_NOT_FOUND);
 			exception.getDetailMessages().add("room_number[" + roomNumber + "]");
@@ -104,8 +105,9 @@ public class RoomManager {
 			exception.getDetailMessages().add("room_number[" + roomNumber + "]");
 			throw exception;
 		}
-		room.setStayingDate(null);
-		roomDao.updateRoom(room);
+		room.setStayingDate(null);// set stayding date to null means remove the customer from the room! (a room
+									// staying date set to null)
+		roomDao.updateRoom(room); // update the database by using the DAO
 		return stayingDate;
 	}
 

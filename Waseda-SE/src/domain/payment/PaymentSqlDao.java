@@ -55,12 +55,14 @@ public class PaymentSqlDao implements PaymentDao {
 				payment.setAmount(Integer.parseInt(resultSet.getString("amount")));
 				payment.setStatus(resultSet.getString("status"));
 			}
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			PaymentException exception = new PaymentException(
 					PaymentException.CODE_DB_EXEC_QUERY_ERROR, e);
 			exception.getDetailMessages().add("getPayment()");
 			throw exception;
-		} finally {
+		}
+		finally {
 			close(resultSet, statement, connection);
 		}
 		return payment;
@@ -86,12 +88,14 @@ public class PaymentSqlDao implements PaymentDao {
 			sql.append("';");
 
 			resultSet = statement.executeQuery(sql.toString());
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			PaymentException exception = new PaymentException(
 					PaymentException.CODE_DB_EXEC_QUERY_ERROR, e);
 			exception.getDetailMessages().add("updatePayment()");
 			throw exception;
-		} finally {
+		}
+		finally {
 			close(resultSet, statement, connection);
 		}
 	}
@@ -120,29 +124,32 @@ public class PaymentSqlDao implements PaymentDao {
 			sql.append("');");
 
 			resultSet = statement.executeQuery(sql.toString());
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			PaymentException exception = new PaymentException(
 					PaymentException.CODE_DB_EXEC_QUERY_ERROR, e);
 			exception.getDetailMessages().add("createPayment()");
 			throw exception;
-		} finally {
+		}
+		finally {
 			close(resultSet, statement, connection);
 		}
 	}
 
 	/**
-	 * ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B<br>
+	 * ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br>
 	 * 
-	 * @return ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
+	 * @return ƒRƒlƒNƒVƒ‡ƒ“
 	 * @throws PaymentException
-	 *                          ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+	 *            ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“æ“¾‚ª¸”s‚µ‚½ê‡‚É”­¶‚µ‚Ü‚·B
 	 */
 	private Connection getConnection() throws PaymentException {
 		Connection connection = null;
 		try {
 			Class.forName(DRIVER_NAME);
 			connection = DriverManager.getConnection(URL, ID, PASSWORD);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new PaymentException(PaymentException.CODE_DB_CONNECT_ERROR, e);
 		}
 		return connection;
@@ -160,7 +167,8 @@ public class PaymentSqlDao implements PaymentDao {
 			if (connection != null) {
 				connection.close();
 			}
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			throw new PaymentException(PaymentException.CODE_DB_CLOSE_ERROR, e);
 		}
 	}

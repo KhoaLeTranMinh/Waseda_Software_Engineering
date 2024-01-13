@@ -22,34 +22,31 @@ public class CheckInRoomControl {
 
 	public String checkIn(String reservationNumber) throws AppException {
 		try {
-			//Consume reservation
+			// Consume reservation
 			ReservationManager reservationManager = getReservationManager();
 			Date stayingDate = reservationManager.consumeReservation(reservationNumber);
 
-			//Assign room
+			// Assign room
 			RoomManager roomManager = getRoomManager();
 			String roomNumber = roomManager.assignCustomer(stayingDate);
 
-			//Create payment
+			// Create payment
 			PaymentManager paymentManager = getPaymentManager();
 			paymentManager.createPayment(stayingDate, roomNumber);
 
 			return roomNumber;
-		}
-		catch (ReservationException e) {
+		} catch (ReservationException e) {
 			AppException exception = new AppException("Failed to check-in", e);
 			exception.getDetailMessages().add(e.getMessage());
 			exception.getDetailMessages().addAll(e.getDetailMessages());
 			throw exception;
 
-		}
-		catch (RoomException e) {
+		} catch (RoomException e) {
 			AppException exception = new AppException("Failed to check-in", e);
 			exception.getDetailMessages().add(e.getMessage());
 			exception.getDetailMessages().addAll(e.getDetailMessages());
 			throw exception;
-		}
-		catch (PaymentException e) {
+		} catch (PaymentException e) {
 			AppException exception = new AppException("Failed to check-in", e);
 			exception.getDetailMessages().add(e.getMessage());
 			exception.getDetailMessages().addAll(e.getDetailMessages());

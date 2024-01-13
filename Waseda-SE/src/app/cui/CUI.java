@@ -43,8 +43,7 @@ public class CUI {
 				try {
 					String menu = reader.readLine();
 					selectMenu = Integer.parseInt(menu);
-				}
-				catch (NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					selectMenu = 4;
 				}
 
@@ -65,12 +64,10 @@ public class CUI {
 				}
 			}
 			System.out.println("Ended");
-		}
-		catch (AppException e) {
+		} catch (AppException e) {
 			System.err.println("Error");
 			System.err.println(e.getFormattedDetailMessages(LINE_SEPARATOR));
-		}
-		finally {
+		} finally {
 			reader.close();
 		}
 	}
