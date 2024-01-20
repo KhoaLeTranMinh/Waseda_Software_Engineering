@@ -52,17 +52,42 @@ public class ReservationSqlDao implements ReservationDao {
 				reservation.setStayingDate(DateUtil.convertToDate(resultSet
 						.getString("stayingDate")));
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			ReservationException exception = new ReservationException(
 					ReservationException.CODE_DB_EXEC_QUERY_ERROR, e);
 			exception.getDetailMessages().add("getReservation()");
 			throw exception;
-		}
-		finally {
+		} finally {
 			close(resultSet, statement, connection);
 		}
 		return reservation;
+	}
+
+	public void deleteReservationEntity(String reservationNumber) throws ReservationException {
+		StringBuffer sql = new StringBuffer();
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		// Reservation reservation = null;
+		try {
+			connection = getConnection();
+			statement = connection.createStatement();
+			sql.append("DELETE FROM ");
+			sql.append(TABLE_NAME);
+			sql.append(" WHERE RESERVATIONNUMBER= '");
+			sql.append(reservationNumber);
+			sql.append("';");
+			resultSet = statement.executeQuery(sql.toString());
+
+		} catch (SQLException e) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_DB_EXEC_QUERY_ERROR, e);
+			exception.getDetailMessages().add("deleteReservation()");
+			throw exception;
+		} finally {
+			close(resultSet, statement, connection);
+		}
+
 	}
 
 	/**
@@ -84,14 +109,12 @@ public class ReservationSqlDao implements ReservationDao {
 			sql.append(reservation.getReservationNumber());
 			sql.append("';");
 			resultSet = statement.executeQuery(sql.toString());
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			ReservationException exception = new ReservationException(
 					ReservationException.CODE_DB_EXEC_QUERY_ERROR, e);
 			exception.getDetailMessages().add("updateReservation()");
 			throw exception;
-		}
-		finally {
+		} finally {
 			close(resultSet, statement, connection);
 		}
 	}
@@ -118,15 +141,40 @@ public class ReservationSqlDao implements ReservationDao {
 			sql.append(reservation.getStatus());
 			sql.append("');");
 			resultSet = statement.executeQuery(sql.toString());
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			ReservationException exception = new ReservationException(
 					ReservationException.CODE_DB_EXEC_QUERY_ERROR, e);
 			exception.getDetailMessages().add("createReservation()");
 			throw exception;
-		}
-		finally {
+		} finally {
 			close(resultSet, statement, connection);
+		}
+	}
+
+	public void deleteReservation(Reservation reservation) throws ReservationException {
+		StringBuffer sql = new StringBuffer();
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		if (reservation.getStatus() == "create") {
+			try {
+				connection = getConnection();
+				statement = connection.createStatement();
+				sql.append("DELETE FROM ");
+				sql.append(TABLE_NAME);
+				sql.append("where reservationNumber='");
+				sql.append(reservation.getReservationNumber());
+				sql.append("';");
+				resultSet = statement.executeQuery(sql.toString());
+			} catch (SQLException e) {
+				ReservationException exception = new ReservationException(
+						ReservationException.CODE_DB_EXEC_QUERY_ERROR, e);
+				exception.getDetailMessages().add("updateReservation()");
+				throw exception;
+			} finally {
+				close(resultSet, statement, connection);
+			}
+
 		}
 	}
 
@@ -135,8 +183,7 @@ public class ReservationSqlDao implements ReservationDao {
 		try {
 			Class.forName(DRIVER_NAME);
 			connection = DriverManager.getConnection(URL, ID, PASSWORD);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new ReservationException(ReservationException.CODE_DB_CONNECT_ERROR, e);
 		}
 		return connection;
@@ -154,8 +201,7 @@ public class ReservationSqlDao implements ReservationDao {
 			if (connection != null) {
 				connection.close();
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new ReservationException(ReservationException.CODE_DB_CLOSE_ERROR, e);
 		}
 	}

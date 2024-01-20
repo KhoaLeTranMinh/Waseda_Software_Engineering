@@ -3,6 +3,7 @@
  */
 package domain.payment;
 
+import java.util.Scanner;
 import java.util.Date;
 
 import util.DateUtil;
@@ -71,6 +72,29 @@ public class PaymentManager {
 			throw exception;
 		}
 
+		System.out.println("Amount to pay: " + payment.getAmount());
+		System.out.print("> ");
+		System.out.println("Input the money amount");
+		System.out.print("> ");
+		Scanner scan = new Scanner(System.in);
+		int moneyPaid = scan.nextInt();
+
+		while (moneyPaid < payment.getAmount()) {
+			payment.setAmount(payment.getAmount() - moneyPaid);
+			System.out.println("staying_date[" + DateUtil.convertToString(stayingDate) + "]");
+			System.out.println("room_number[" + roomNumber + "]");
+			System.out.println("Amount left to pay: " + payment.getAmount());
+			System.out.println("Input the money amount");
+			System.out.print("> ");
+			moneyPaid = scan.nextInt();
+		}
+		if (moneyPaid > payment.getAmount()) {
+			System.out.println(
+					"Here is your change: " + (moneyPaid - payment.getAmount()) + "\n Thank you for your stay!");
+
+		}
+
+		// scan.close();
 		payment.setStatus(Payment.PAYMENT_STATUS_CONSUME);
 		paymentDao.updatePayment(payment);
 	}

@@ -31,5 +31,5 @@ public class CheckInRoomForm {
 	public void setReservationNumber(String reservationNumber) {
 		this.reservationNumber = reservationNumber;
 	}
-
+		
 }

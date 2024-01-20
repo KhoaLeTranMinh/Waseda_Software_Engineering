@@ -14,5 +14,7 @@ public interface ReservationDao {
 
 	public abstract void updateReservation(Reservation reservation) throws ReservationException;
 
+	public abstract void deleteReservationEntity(String reservationNumber) throws ReservationException;
+
 	public abstract void createReservation(Reservation reservation) throws ReservationException;
 }

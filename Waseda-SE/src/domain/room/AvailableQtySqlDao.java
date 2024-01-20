@@ -73,7 +73,7 @@ public class AvailableQtySqlDao implements AvailableQtyDao {
 		ResultSet resultSet = null;
 		Connection connection = null;
 		try {
-			connection = getConnection();
+			connection = getConnection();// roomException can also be caught from here
 			statement = connection.createStatement();
 			sql.append("UPDATE ");
 			sql.append(TABLE_NAME);

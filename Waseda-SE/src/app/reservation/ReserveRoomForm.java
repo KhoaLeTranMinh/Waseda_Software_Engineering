@@ -13,17 +13,22 @@ import app.AppException;
  */
 public class ReserveRoomForm {
 
-	private ReserveRoomControl reserveRoomHandler = new ReserveRoomControl();
+	private ReserveRoomControl reserveRoomControl = new ReserveRoomControl();
 
 	private Date stayingDate;
 
-	private ReserveRoomControl getReserveRoomHandler() {
-		return reserveRoomHandler;
+	private ReserveRoomControl getReserveRoomControl() {
+		return reserveRoomControl;
 	}
 
 	public String submitReservation() throws AppException {
-		ReserveRoomControl reserveRoomHandler = getReserveRoomHandler();
-		return reserveRoomHandler.makeReservation(stayingDate);
+		ReserveRoomControl reserveRoomControl = getReserveRoomControl();
+		return reserveRoomControl.makeReservation(stayingDate);
+	}
+
+	public void cancelReservation(String reservationNumber) throws AppException {
+		ReserveRoomControl reserveRoomControl = getReserveRoomControl();
+		reserveRoomControl.cancelReservationAndIncreaseAvailability(reservationNumber);
 	}
 
 	public Date getStayingDate() {

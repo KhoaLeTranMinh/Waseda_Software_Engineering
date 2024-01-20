@@ -92,7 +92,7 @@ public class RoomManager {
 			throw new NullPointerException("roomNumber");
 		}
 		RoomDao roomDao = getRoomDao();
-		Room room = roomDao.getRoom(roomNumber);
+		Room room = roomDao.getRoom(roomNumber); // get a room from the database
 		// If corresponding room does not exist
 		if (room == null) {
 			RoomException exception = new RoomException(RoomException.CODE_ROOM_NOT_FOUND);
@@ -100,6 +100,7 @@ public class RoomManager {
 			throw exception;
 		}
 		Date stayingDate = room.getStayingDate();
+		// If room is already empty
 		if (stayingDate == null) {
 			RoomException exception = new RoomException(RoomException.CODE_ROOM_NOT_FULL);
 			exception.getDetailMessages().add("room_number[" + roomNumber + "]");

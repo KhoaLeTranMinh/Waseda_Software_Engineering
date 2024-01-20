@@ -21,21 +21,23 @@ public class CheckOutRoomControl {
 	public void checkOut(String roomNumber) throws AppException {
 		try {
 			// Clear room
-			/*
-			 * Your code for clearing room by using domain.room.RoomManager
-			 */
+			// * Your code for clearing room by using domain.room.RoomManager
+			// */
+
 			RoomManager roomManager = getRoomManager();
 			Date stayingDate = roomManager.removeCustomer(roomNumber);
-
-			// Consume payment
 			/*
+			 * // Consume payment
+			 * /*
 			 * Your code for consuming payment by using domain.payment.PaymentManager
 			 */
+
 			PaymentManager paymentManager = getPaymentManager();
 			paymentManager.consumePayment(stayingDate, roomNumber);
 
 		} catch (RoomException e) {
-			AppException exception = new AppException("Failed to check-out", e);
+			AppException exception = new AppException("Failed to check-out", e); // encapsulate RoomException with
+																					// AppException
 			exception.getDetailMessages().add(e.getMessage());
 			exception.getDetailMessages().addAll(e.getDetailMessages());
 			throw exception;
@@ -54,4 +56,5 @@ public class CheckOutRoomControl {
 	private PaymentManager getPaymentManager() {
 		return ManagerFactory.getInstance().getPaymentManager();
 	}
+
 }

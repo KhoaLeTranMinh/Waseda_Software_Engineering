@@ -1,0 +1,5 @@
+Look into these places to see the changes for the reservation cancellation functionality:
+-CUI(4th option to cancel Reservation and cancelReservation method, achieved by asking the customer for the reservationNumber)
+-ReservationForm and ReservationControl (added cancelReservation Method)
+-ReservationManager :added 2 methods (getStayingDate and deleteReservation)
+-ReservationDAO and ReservationSqlDao: added a method called deleteReservationEntity to delete the Reservation entity from the database

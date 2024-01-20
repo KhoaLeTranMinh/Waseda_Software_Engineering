@@ -13,7 +13,7 @@ import domain.DaoFactory;
  * 
  */
 public class ReservationManager {
-	
+
 	public String createReservation(Date stayingDate) throws ReservationException,
 			NullPointerException {
 		if (stayingDate == null) {
@@ -35,10 +35,54 @@ public class ReservationManager {
 		Calendar calendar = Calendar.getInstance();
 		try {
 			Thread.sleep(10);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return String.valueOf(calendar.getTimeInMillis());
+	}
+
+	public Date getStayingDate(String reservationNumber) throws ReservationException, NullPointerException {
+		if (reservationNumber == null) {
+			throw new NullPointerException("reservationNumber");
+		}
+		ReservationDao reservationDao = getReservationDao();
+		Reservation reservation = reservationDao.getReservation(reservationNumber);
+		// if resrvation is not found
+		if (reservation == null) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_RESERVATION_NOT_FOUND);
+			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
+			throw exception;
+		}
+		// If reservation has been consumed already
+		if (reservation.getStatus().equals(Reservation.RESERVATION_STATUS_CONSUME)) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_RESERVATION_ALREADY_CONSUMED);
+			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
+			throw exception;
+		}
+		return reservation.getStayingDate();
+	}
+
+	// Added, exercise 6
+	public void deleteReservation(String reservationNumber) throws ReservationException {
+		ReservationDao reservationDao = getReservationDao();
+		Reservation reservation = reservationDao.getReservation(reservationNumber);
+		// If corresponding reservation does not exist
+		if (reservation == null) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_RESERVATION_NOT_FOUND);
+			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
+			throw exception;
+		}
+		// If reservation has been consumed already
+		if (reservation.getStatus().equals(Reservation.RESERVATION_STATUS_CONSUME)) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_RESERVATION_ALREADY_CONSUMED);
+			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
+			exception.getDetailMessages().add("cannot cancel reservation because it has been already consumed");
+			throw exception;
+		}
+		reservationDao.deleteReservationEntity(reservationNumber);
 	}
 
 	public Date consumeReservation(String reservationNumber) throws ReservationException,
@@ -49,14 +93,14 @@ public class ReservationManager {
 
 		ReservationDao reservationDao = getReservationDao();
 		Reservation reservation = reservationDao.getReservation(reservationNumber);
-		//If corresponding reservation does not exist
+		// If corresponding reservation does not exist
 		if (reservation == null) {
 			ReservationException exception = new ReservationException(
 					ReservationException.CODE_RESERVATION_NOT_FOUND);
 			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
 			throw exception;
 		}
-		//If reservation has been consumed already
+		// If reservation has been consumed already
 		if (reservation.getStatus().equals(Reservation.RESERVATION_STATUS_CONSUME)) {
 			ReservationException exception = new ReservationException(
 					ReservationException.CODE_RESERVATION_ALREADY_CONSUMED);

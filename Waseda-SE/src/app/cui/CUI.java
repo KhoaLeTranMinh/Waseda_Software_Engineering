@@ -37,6 +37,8 @@ public class CUI {
 				System.out.println("1: Reservation");
 				System.out.println("2: Check-in");
 				System.out.println("3: Check-out");
+				System.out.println("4: Cancel Reservation");
+				// added
 				System.out.println("9: End");
 				System.out.print("> ");
 
@@ -44,7 +46,7 @@ public class CUI {
 					String menu = reader.readLine();
 					selectMenu = Integer.parseInt(menu);
 				} catch (NumberFormatException e) {
-					selectMenu = 4;
+					selectMenu = 5;
 				}
 
 				if (selectMenu == 9) {
@@ -61,6 +63,9 @@ public class CUI {
 					case 3:
 						checkOutRoom();
 						break;
+					case 4:
+						cancelReservation();
+						break;
 				}
 			}
 			System.out.println("Ended");
@@ -70,6 +75,24 @@ public class CUI {
 		} finally {
 			reader.close();
 		}
+	}
+
+	private void cancelReservation() throws IOException, AppException {// Added
+		System.out.println("Input reservation number");
+		System.out.print("> ");
+
+		String reservationNumber = reader.readLine();
+
+		if (reservationNumber == null || reservationNumber.length() == 0) {
+			System.out.println("Invalid reservation number");
+			return;
+		}
+
+		ReserveRoomForm reserveRoomForm = new ReserveRoomForm();
+		reserveRoomForm.cancelReservation(reservationNumber);
+
+		System.out.println(
+				"Reservation cancellation with reservation number " + reservationNumber + " has been completed!");
 	}
 
 	private void reserveRoom() throws IOException, AppException {
@@ -135,4 +158,5 @@ public class CUI {
 		CUI cui = new CUI();
 		cui.execute();
 	}
+
 }
